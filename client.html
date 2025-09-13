@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Coffee Shop System</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding-bottom: 60px; /* Prevent content from hiding behind bottom navbar */
+    }
+    .bottom-navbar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background-color: #f8f9fa;
+      border-top: 1px solid #ddd;
+      padding: 10px 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+    .bottom-navbar .nav-links {
+      display: flex;
+      gap: 20px;
+    }
+    .bottom-navbar {
+      margin-left: auto;
+      display: flex;
+      gap: 10px;
+    }
+    /* Hero Section */
+    .hero {
+      background: url('img/coffee-bg.jpg') center/cover no-repeat;
+      background-color: #38211E;
+      color: #fff;
+      text-align: center;
+      padding: 120px 20px;
+    }
+    .hero h1 {
+      font-size: 2.5rem;
+      font-weight: bold;
+    }
+
+    /* Menu Section */
+    #menu {
+      background-color: #fff8f0;
+      border-radius: 12px;
+      padding: 60px 20px;
+    }
+
+    /* Coffee Cards */
+    .coffee-card {
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .coffee-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+    }
+    .btn-coffee {
+      background-color: #6f4e37;
+      color: #fff;
+      border-radius: 25px;
+      padding: 6px 14px;
+      transition: 0.3s;
+    }
+    .btn-coffee:hover {
+      background-color: #d2691e;
+    }
+
+    /* Contact Us */
+    .contact_us {
+      background-color: #38211E;
+      color: #fff;
+      padding: 60px 20px;
+      margin-top: 60px;
+    }
+
+    /* Order controls */
+    .order-controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+    .qty-box {
+      display: flex;
+      align-items: center;
+    }
+    .qty-box button {
+      border: none;
+      background: #6f4e37;
+      color: #fff;
+      padding: 4px 10px;
+      font-size: 18px;
+      border-radius: 5px;
+      transition: 0.3s;
+    }
+    .qty-box button:hover {
+      background: #d2691e;
+    }
+    .qty-box input {
+      width: 50px;
+      text-align: center;
+      border: 1px solid #ccc;
+      margin: 0 4px;
+      border-radius: 5px;
+    }
+    .note-box {
+      flex: 1;
+    }
+    .note-box input {
+      width: 100%;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      padding: 4px 6px;
+    }
+
+    /* Cart Sidebar */
+    .cart-sidebar {
+      position: fixed;
+      top: 0;
+      right: -400px;
+      width: 320px;
+      height: 100%;
+      background: #fff;
+      box-shadow: -3px 0 10px rgba(0,0,0,0.2);
+      padding: 20px;
+      transition: right 0.4s ease;
+      z-index: 1050;
+      overflow-y: auto;
+    }
+    .cart-sidebar.open {
+      right: 0;
+    }
+
+    /* Floating Cart Button */
+    .cart-float {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #6f4e37;
+      color: white;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 28px;
+      cursor: pointer;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+      z-index: 1100;
+    }
+    .cart-float:hover {
+      background: #d2691e;
+    }
+    .cart-count {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      background: red;
+      color: white;
+      border-radius: 50%;
+      font-size: 13px;
+      padding: 2px 6px;
+      font-weight: bold;
+    }
+
+    /* Shake animation */
+    @keyframes shake {
+      0% { transform: translateX(0); }
+      25% { transform: translateX(-5px); }
+      50% { transform: translateX(5px); }
+      75% { transform: translateX(-5px); }
+      100% { transform: translateX(0); }
+    }
+    .shake {
+      animation: shake 0.5s;
+    }
+
+    /* Responsive fixes */
+    @media (max-width: 768px) {
+      .hero h1 { font-size: 2rem; }
+      .hero p { font-size: 1rem; }
+      .cart-sidebar { width: 100%; }
+    }
+    /* User Menu */
+    .user-float {
+    position: fixed;
+    bottom: 25px; /* above bottom navbar */
+    left: 20px;   /* float on left side */
+    z-index: 1100;
+    }
+    .user-float #userBtn {
+      border-radius: 50px; /* round button */
+      padding: 12px 20px;  /* bigger size */
+      font-size: 18px;
+      display: flex;
+      align-items: center;
+      transition: 0.3s;
+    }
+    .user-float #userBtn.logged-in {
+      background-color: #28a745 !important; /* green when logged in */
+      color: white;
+    }
+    .user-menu {
+      display: none;
+      flex-direction: column;
+      margin-top: 8px;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+      overflow: hidden;
+    }
+    .user-menu a {
+      padding: 10px 16px;
+      text-decoration: none;
+      color: #333;
+      border-bottom: 1px solid #ddd;
+      font-size: 16px;
+    }
+    .user-menu a:last-child {
+      border-bottom: none;
+    }
+    .user-menu a:hover {
+      background-color: #f1f1f1;
+    }
+  </style>
+</head>
+<body>
+  
+<header>
+  <!-- Top Logo -->
+  <nav class="navbar bg-light border-bottom justify-content-center">
+    <a class="navbar-brand" href="#">
+      <img src="img/logo/coffee.png" alt="Logo" height="150">
+    </a>
+  </nav>
+
+  <!-- Bottom Navbar -->
+  <nav class="navbar navbar-expand-lg bg-light">
+    <div class="container">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMenu">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarMenu">
+        <ul class="navbar-nav mx-auto">
+          <li class="nav-item"><a class="nav-link fw-bold" href="#">HOME</a></li>
+          <li class="nav-item"><a class="nav-link fw-bold" href="#">SHOP</a></li>
+          <li class="nav-item"><a class="nav-link fw-bold" href="#">MENU</a></li>
+          <li class="nav-item"><a class="nav-link fw-bold" href="#about">ABOUT US</a></li>
+          <li class="nav-item"><a class="nav-link fw-bold" href="#contact">CONTACT</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+</header>
+
+<!-- Hero Section -->
+<section class="hero">
+  <h1>Fresh Coffee, Anytime</h1>
+  <p class="lead">Order your favorite coffee online & pick it up when you’re ready</p>
+  <a href="#menu" class="btn btn-coffee mt-3">Shop Now</a>
+</section>
+
+<!-- Menu Section -->
+<section id="menu" class="container my-5">
+  <h1 class="text-center mb-4">Our Menu</h1>
+
+  <!-- Coffee Section -->
+  <h2 class="text-center mb-4">Coffee</h2>
+  <div class="row g-4">
+    <!-- Coffee Item 1 -->
+    <div class="col-md-4">
+      <div class="card coffee-card">
+        <img src="img/coffee/iced-americano.jpg" class="card-img-top img-fluid" alt="Iced Americano">
+        <div class="card-body text-center">
+          <h5 class="card-title">Iced Americano</h5>
+          <p class="card-text">$2.50</p>
+          <div class="order-controls">
+            <select class="form-select form-select-sm" style="max-width: 90px;">
+              <option>0%</option><option>25%</option><option>50%</option><option>75%</option><option selected>100%</option>
+            </select>
+            <div class="qty-box">
+              <button onclick="changeQty(this, -1)">-</button>
+              <input type="text" value="1" readonly>
+              <button onclick="changeQty(this, 1)">+</button>
+            </div>
+            <div class="note-box"><input type="text" placeholder="Note"></div>
+          </div>
+          <button class="btn btn-coffee w-100" onclick="orderNow('Iced Americano', 2.50, this)">Order</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Coffee Item 2 -->
+    <div class="col-md-4">
+      <div class="card coffee-card">
+        <img src="img/coffee/iced latte.jpg" class="card-img-top img-fluid" alt="Iced Latte">
+        <div class="card-body text-center">
+          <h5 class="card-title">Iced Latte</h5>
+          <p class="card-text">$3.50</p>
+          <div class="order-controls">
+            <select class="form-select form-select-sm" style="max-width: 90px;">
+              <option>0%</option><option>25%</option><option>50%</option><option>75%</option><option selected>100%</option>
+            </select>
+            <div class="qty-box">
+              <button onclick="changeQty(this, -1)">-</button>
+              <input type="text" value="1" readonly>
+              <button onclick="changeQty(this, 1)">+</button>
+            </div>
+            <div class="note-box"><input type="text" placeholder="Note"></div>
+          </div>
+          <button class="btn btn-coffee w-100" onclick="orderNow('Iced Latte', 3.50, this)">Order</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Coffee Item 3 -->
+    <div class="col-md-4">
+      <div class="card coffee-card">
+        <img src="img/coffee/iced-mocha.jpg" class="card-img-top img-fluid" alt="Iced Mocha">
+        <div class="card-body text-center">
+          <h5 class="card-title">Iced Mocha</h5>
+          <p class="card-text">$2.50</p>
+          <div class="order-controls">
+            <select class="form-select form-select-sm" style="max-width: 90px;">
+              <option>0%</option><option>25%</option><option>50%</option><option>75%</option><option selected>100%</option>
+            </select>
+            <div class="qty-box">
+              <button onclick="changeQty(this, -1)">-</button>
+              <input type="text" value="1" readonly>
+              <button onclick="changeQty(this, 1)">+</button>
+            </div>
+            <div class="note-box"><input type="text" placeholder="Note"></div>
+          </div>
+          <button class="btn btn-coffee w-100" onclick="orderNow('Iced Mocha', 2.50, this)">Order</button>
+        </div>
+      </div>
+    </div>
+
+    <h2 class="text-center mb-4">Matcha</h2>
+    <!-- Matcha Item 1 -->
+     <div class="col-md-4">
+      <div class="card coffee-card">
+        <img src="img/matcha/matcha latte.jpg" class="card-img-top img-fluid" alt="Matcha Latte">
+        <div class="card-body text-center">
+          <h5 class="card-title">Matcha Latte</h5>
+          <p class="card-text">$3.00</p>
+          <div class="order-controls">
+            <select class="form-select form-select-sm" style="max-width: 90px;">
+              <option>0%</option><option>25%</option><option>50%</option><option>75%</option><option selected>100%</option>
+            </select>
+            <div class="qty-box">
+              <button onclick="changeQty(this, -1)">-</button>
+              <input type="text" value="1" readonly>
+              <button onclick="changeQty(this, 1)">+</button>
+            </div>
+            <div class="note-box"><input type="text" placeholder="Note"></div>
+          </div>
+          <button class="btn btn-coffee w-100" onclick="orderNow('Matcha Latte', 3.00, this)">Order</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Matcha Item 2 -->
+     <div class="col-md-4">
+      <div class="card coffee-card">
+        <img src="img/matcha/strawberry matcha.jpg" class="card-img-top img-fluid" alt="Strawberry Matcha">
+        <div class="card-body text-center">
+          <h5 class="card-title">Strawberry Matcha</h5>
+          <p class="card-text">$3.50</p>
+          <div class="order-controls">
+            <select class="form-select form-select-sm" style="max-width: 90px;">
+              <option>0%</option><option>25%</option><option>50%</option><option>75%</option><option selected>100%</option>
+            </select>
+            <div class="qty-box">
+              <button onclick="changeQty(this, -1)">-</button>
+              <input type="text" value="1" readonly>
+              <button onclick="changeQty(this, 1)">+</button>
+            </div>
+            <div class="note-box"><input type="text" placeholder="Note"></div>
+          </div>
+          <button class="btn btn-coffee w-100" onclick="orderNow('Strawberry Matcha', 3.50, this)">Order</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Matcha Item3  -->
+     <div class="col-md-4">
+      <div class="card coffee-card">
+        <img src="img/matcha/CocoMatcha.jpg" class="card-img-top img-fluid" alt="Coconut Matcha">
+        <div class="card-body text-center">
+          <h5 class="card-title">Coconut Matcha</h5>
+          <p class="card-text">$2.00</p>
+          <div class="order-controls">
+            <select class="form-select form-select-sm" style="max-width: 90px;">
+              <option>0%</option><option>25%</option><option>50%</option><option>75%</option><option selected>100%</option>
+            </select>
+            <div class="qty-box">
+              <button onclick="changeQty(this, -1)">-</button>
+              <input type="text" value="1" readonly>
+              <button onclick="changeQty(this, 1)">+</button>
+            </div>
+            <div class="note-box"><input type="text" placeholder="Note"></div>
+          </div>
+          <button class="btn btn-coffee w-100" onclick="orderNow('Coconut Matcha', 2.00, this)">Order</button>
+        </div>
+      </div>
+    </div>
+
+    <h2 class="text-center mb-4">Tea</h2>
+    <!-- Tea Item 1 -->
+     <div class="col-md-4">
+      <div class="card coffee-card">
+        <img src="img/tea/iced lemon tea.jpg" class="card-img-top img-fluid" alt="Iced Lemon Tea">
+        <div class="card-body text-center">
+          <h5 class="card-title">Iced Lemon Tea</h5>
+          <p class="card-text">$1.50</p>
+          <div class="order-controls">
+            <select class="form-select form-select-sm" style="max-width: 90px;">
+              <option>0%</option><option>25%</option><option>50%</option><option>75%</option><option selected>100%</option>
+            </select>
+            <div class="qty-box">
+              <button onclick="changeQty(this, -1)">-</button>
+              <input type="text" value="1" readonly>
+              <button onclick="changeQty(this, 1)">+</button>
+            </div>
+            <div class="note-box"><input type="text" placeholder="Note"></div>
+          </div>
+          <button class="btn btn-coffee w-100" onclick="orderNow('Iced Lemon Tea', 1.50, this)">Order</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tea Item 2 -->
+     <div class="col-md-4">
+      <div class="card coffee-card">
+        <img src="img/tea/black-tea-macchiato.jpg" class="card-img-top img-fluid" alt="Black Tea Macchiato">
+        <div class="card-body text-center">
+          <h5 class="card-title">Black Tea Macchiato</h5>
+          <p class="card-text">$2.00</p>
+          <div class="order-controls">
+            <select class="form-select form-select-sm" style="max-width: 90px;">
+              <option>0%</option><option>25%</option><option>50%</option><option>75%</option><option selected>100%</option>
+            </select>
+            <div class="qty-box">
+              <button onclick="changeQty(this, -1)">-</button>
+              <input type="text" value="1" readonly>
+              <button onclick="changeQty(this, 1)">+</button>
+            </div>
+            <div class="note-box"><input type="text" placeholder="Note"></div>
+          </div>
+          <button class="btn btn-coffee w-100" onclick="orderNow('Black Tea Macchiato', 2.00, this)">Order</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- tea Item3  -->
+     <div class="col-md-4">
+      <div class="card coffee-card">
+        <img src="img/tea/Brown-Sugar-Milk-Tea.jpg" class="card-img-top img-fluid" alt="Brown Sugar Milk Tea">
+        <div class="card-body text-center">
+          <h5 class="card-title">Brown Sugar Milk Tea</h5>
+          <p class="card-text">$2.50</p>
+          <div class="order-controls">
+            <select class="form-select form-select-sm" style="max-width: 90px;">
+              <option>0%</option><option>25%</option><option>50%</option><option>75%</option><option selected>100%</option>
+            </select>
+            <div class="qty-box">
+              <button onclick="changeQty(this, -1)">-</button>
+              <input type="text" value="1" readonly>
+              <button onclick="changeQty(this, 1)">+</button>
+            </div>
+            <div class="note-box"><input type="text" placeholder="Note"></div>
+          </div>
+          <button class="btn btn-coffee w-100" onclick="orderNow('Brown Sugar Milk Tea', 2.50, this)">Order</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- About -->
+<section id="about" class="py-5 bg-light text-center">
+  <div class="container">
+    <h2>About Us</h2>
+    <p class="lead">More than a coffee shop — we are your daily escape for warmth, flavor, and community.</p>
+  </div>
+</section>
+
+
+<!-- Contact -->
+<section id="contact" class="contact_us py-5">
+  <div class="container">
+    <h2 class="text-center mb-4">Contact Us</h2>
+    <form class="row g-3">
+      <div class="col-md-6"><input type="text" class="form-control" placeholder="Your Name"></div>
+      <div class="col-md-6"><input type="email" class="form-control" placeholder="Your Email"></div>
+      <div class="col-12"><textarea class="form-control" rows="4" placeholder="Your Message"></textarea></div>
+      <div class="col-12 text-center"><button type="submit" class="btn btn-coffee">Send Message</button></div>
+    </form>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="text-center py-4 bg-light border-top">
+  <p class="mb-0">&copy; 2025 Coffee Shop. All Rights Reserved.</p>
+</footer>
+
+<!-- Cart Sidebar -->
+<div id="cartSidebar" class="cart-sidebar">
+  <h4>Your Cart</h4>
+  <div id="cartItems"></div>
+  <div class="cart-footer">
+    <p id="cartTotal">Total: $0.00</p>
+    <button class="btn btn-coffee w-100 mb-2" onclick="checkout()">Checkout</button>
+    <button class="btn btn-secondary w-100" onclick="clearCart()">Clear Cart</button>
+  </div>
+</div>
+
+<!-- Floating Cart Button -->
+<div class="cart-float" onclick="toggleCart()">
+  🛒
+  <span id="cartCount" class="cart-count" style="display:none;">0</span>
+</div>
+
+<!-- Floating User Menu -->
+<div class="user-float">
+  <button id="userBtn" class="btn btn-primary fw-bold">
+    <img src="img/logo/user-icon.png" width="28" style="margin-right:0px;">
+  </button>
+  <div id="userMenu" class="user-menu">
+    <a href="#" id="loginMenu" data-bs-toggle="modal" data-bs-target="#loginModal">Login</a>
+    <a href="#" id="registerMenu" data-bs-toggle="modal" data-bs-target="#registerModal">Register</a>
+    <a href="#" id="logoutMenu" style="display:none;">Logout</a>
+  </div>
+</div>
+
+<!-- Login Modal -->
+  <div class="modal fade" id="loginModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Login</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <form id="loginForm">
+            <div class="mb-3">
+              <label class="form-label">Email</label>
+              <input type="email" class="form-control" id="loginEmail" required>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Password</label>
+              <input type="password" class="form-control" id="loginPassword" required>
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Login</button>
+          </form>
+          <p class="mt-3 text-center">Not registered yet? 
+            <a href="#" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#registerModal">Register here</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Register Modal -->
+  <div class="modal fade" id="registerModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Register</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <form id="registerForm">
+            <div class="mb-3">
+              <label class="form-label">Name</label>
+              <input type="text" class="form-control" id="registerName" required>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Email</label>
+              <input type="email" class="form-control" id="registerEmail" required>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Password</label>
+              <input type="password" class="form-control" id="registerPassword" required>
+            </div>
+            <button type="submit" class="btn btn-success w-100">Register</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  let cart = [];
+  let cartOpen = false;
+  let loggedIn = false;
+
+  // Change quantity for coffee
+  function changeQty(btn, delta) {
+    const input = btn.parentNode.querySelector("input");
+    let value = parseInt(input.value) + delta;
+    if (value < 1) value = 1;
+    input.value = value;
+  }
+
+  // Add item to cart
+  function orderNow(item, price, btn) {
+    if (!loggedIn) {
+      alert("Please login first to order.");
+      new bootstrap.Modal(document.getElementById("loginModal")).show();
+      return;
+    }
+
+    const card = btn.closest(".card-body");
+    const sugar = card.querySelector("select").value;
+    const qty = parseInt(card.querySelector(".qty-box input").value);
+    const note = card.querySelector(".note-box input").value;
+    const total = qty * price;
+
+    cart.push({ item, sugar, qty, note, price, total });
+    updateCart();
+    shakeCartButton();
+    if (!cartOpen) toggleCart(true);
+
+    // Reset inputs
+    card.querySelector("select").value = "100%";
+    card.querySelector(".qty-box input").value = "1";
+    card.querySelector(".note-box input").value = "";
+  }
+
+  // Update cart display
+  function updateCart() {
+    const cartItems = document.getElementById("cartItems");
+    const cartTotal = document.getElementById("cartTotal");
+    const cartCount = document.getElementById("cartCount");
+
+    cartItems.innerHTML = "";
+    let sum = 0, count = 0;
+
+    cart.forEach((c, i) => {
+      sum += c.total;
+      count += c.qty;
+      cartItems.innerHTML += `
+        <div class="cart-item">
+          <strong>${c.item}</strong> (${c.qty} × $${c.price.toFixed(2)})<br>
+          Sugar: ${c.sugar} | Note: ${c.note || "—"}<br>
+          <em>Subtotal: $${c.total.toFixed(2)}</em>
+          <button class="btn btn-sm btn-danger mt-1" onclick="removeItem(${i})">Remove</button>
+        </div>`;
+    });
+
+    cartTotal.innerText = "Total: $" + sum.toFixed(2);
+    cartCount.innerText = count;
+    cartCount.style.display = count > 0 ? "inline" : "none";
+  }
+
+  // Remove item from cart
+  function removeItem(index) { cart.splice(index, 1); updateCart(); }
+  function clearCart() { cart = []; updateCart(); }
+
+  // Checkout
+  function checkout() {
+    if (cart.length === 0) { alert("Your cart is empty!"); return; }
+    alert("Checkout successful! Thank you for your order ❤️");
+    clearCart(); toggleCart(false);
+  }
+
+  // Toggle cart sidebar
+  function toggleCart(forceOpen) {
+    const sidebar = document.getElementById("cartSidebar");
+    if (typeof forceOpen === 'boolean') cartOpen = forceOpen;
+    else cartOpen = !cartOpen;
+    sidebar.classList.toggle("open", cartOpen);
+  }
+
+  // Shake floating cart button
+  function shakeCartButton() {
+    const button = document.querySelector('.cart-float');
+    button.classList.add('shake');
+    setTimeout(() => button.classList.remove('shake'), 500);
+  }
+
+  // ===== LOGIN / REGISTER HANDLING =====
+  const userBtn = document.getElementById("userBtn");
+  const userMenu = document.getElementById("userMenu");
+  const loginMenu = document.getElementById("loginMenu");
+  const registerMenu = document.getElementById("registerMenu");
+  const logoutMenu = document.getElementById("logoutMenu");
+
+  userBtn.addEventListener("click", () => {
+    userMenu.style.display = userMenu.style.display === "flex" ? "none" : "flex";
+  });
+
+  // Update login/logout after login
+  loginForm.addEventListener("submit", function(e) {
+  e.preventDefault();
+  loggedIn = true;
+  loginMenu.style.display = "none";
+  registerMenu.style.display = "none";
+  logoutMenu.style.display = "block";
+
+  // Change color and style when logged in
+  userBtn.classList.add("logged-in");
+  userBtn.textContent = "Welcome!";
+
+  const loginModal = bootstrap.Modal.getInstance(document.getElementById('loginModal'));
+  loginModal.hide();
+  });
+
+  logoutMenu.addEventListener("click", () => {
+    loggedIn = false;
+    loginMenu.style.display = "block";
+    registerMenu.style.display = "block";
+    logoutMenu.style.display = "none";
+    
+    // Reset color and text
+    userBtn.classList.remove("logged-in");
+    userBtn.innerHTML = `<img src="img/logo/user-icon.png" width="28" style="margin-right:0px;">`;
+
+    userMenu.style.display = "none";
+  });
+
+  // Handle login
+  loginForm.addEventListener("submit", function(e) {
+    e.preventDefault();
+
+    // For demo, use the email name before @ as username
+    const email = document.getElementById("loginEmail").value;
+    const userName = email.split("@")[0];
+
+    loggedIn = true;
+    loginMenu.style.display = "none";
+    registerMenu.style.display = "none";
+    logoutMenu.style.display = "block";
+
+    userBtn.classList.add("logged-in");
+    userBtn.textContent = `Welcome, ${userName}`;
+
+    const loginModal = bootstrap.Modal.getInstance(document.getElementById('loginModal'));
+    loginModal.hide();
+  });
+
+
+  // Handle register
+  registerForm.addEventListener("submit", function(e) {
+    e.preventDefault();
+
+    // Get user's name from the form
+    const userName = document.getElementById("registerName").value;
+
+    // Auto-login after registration
+    loggedIn = true;
+
+    // Hide login/register menu links, show logout
+    loginMenu.style.display = "none";
+    registerMenu.style.display = "none";
+    logoutMenu.style.display = "block";
+
+    // Update the user button
+    userBtn.classList.add("logged-in");
+    userBtn.textContent = `Welcome, ${userName}`;
+
+    // Hide register modal
+    const registerModal = bootstrap.Modal.getInstance(document.getElementById('registerModal'));
+    registerModal.hide();
+
+    alert("Registration successful! You are now logged in.");
+  });
+
+
+  // Also handle logout button if exists
+  const logoutBtn = document.getElementById("logoutBtn");
+  if(logoutBtn){
+    logoutBtn.addEventListener("click", function() {
+      loggedIn = false;
+      loginBtn.classList.remove("btn-logged-in");
+      loginBtn.textContent = "Login";
+      loginBtn.setAttribute("data-bs-toggle", "modal");
+      registerBtn.style.display = "inline-block";
+    });
+  }
+</script>
+</body>
+</html>

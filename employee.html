@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Code Cafe Owner Dashboard</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #fff;
+    }
+
+    /* Top bar */
+    header {
+      background: #3c1d0b;
+      color: #fff;
+      padding: 15px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    header h2 {
+      margin: 0;
+    }
+
+    nav a {
+      color: #fff;
+      margin: 0 15px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    nav a:hover {
+      text-decoration: underline;
+    }
+
+    header button {
+      background: #c0392b;
+      border: none;
+      padding: 8px 15px;
+      border-radius: 4px;
+      color: #fff;
+      cursor: pointer;
+    }
+
+    /* Container */
+    .container {
+      padding: 20px;
+    }
+
+    h2 {
+      margin-bottom: 15px;
+    }
+
+    .btn-add {
+      background: #5c3b24;
+      border: none;
+      padding: 8px 15px;
+      color: #fff;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-bottom: 15px;
+    }
+
+    /* Table */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: #fff;
+    }
+
+    th, td {
+      border: 1px solid #ddd;
+      padding: 10px;
+      text-align: left;
+    }
+
+    th {
+      background: #333;
+      color: #fff;
+    }
+
+    td {
+      background: #fafafa;
+    }
+
+    /* Action buttons */
+    .action-btn {
+      border: none;
+      padding: 6px 10px;
+      border-radius: 4px;
+      cursor: pointer;
+      margin: 2px;
+    }
+
+    .edit-btn {
+      background: #3498db;
+      color: #fff;
+    }
+
+    .delete-btn {
+      background: #e74c3c;
+      color: #fff;
+    }
+
+    /* Modal */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.6);
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal-content {
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      width: 400px;
+      max-width: 95%;
+      position: relative;
+      box-shadow: 0px 4px 10px rgba(0,0,0,0.3);
+    }
+
+    .modal-content h3 {
+      margin-top: 0;
+    }
+
+    .modal-content input {
+      width: 100%;
+      padding: 8px;
+      margin: 8px 0;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    .modal-content button {
+      background: #5c3b24;
+      color: #fff;
+      border: none;
+      padding: 8px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .close {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      font-size: 20px;
+      cursor: pointer;
+    }
+
+    /* Hide sections */
+    .section {
+      display: none;
+    }
+    .active {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+
+<!-- Top bar -->
+<header>
+  <h2>Code Cafe Owner</h2>
+  <nav>
+    <a href="#" onclick="showSection('customer')">Customer</a>
+    <a href="#" onclick="showSection('order')">Order</a>
+    <a href="#" onclick="showSection('product')">Product</a>
+    <a href="#" onclick="showSection('orderDetail')">Order_Detail</a>
+    <button>Logout</button>
+  </nav>
+</header>
+
+<!-- Main content -->
+<div class="container">
+
+  <!-- Customer -->
+  <div id="customer" class="section active">
+    <h2>Customer</h2>
+    <button class="btn-add" onclick="openModal('customer')">+ Add</button>
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th><th>First Name</th><th>Last Name</th><th>Gender</th><th>Phone</th><th>Address</th><th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="customerTable"></tbody>
+    </table>
+  </div>
+
+  <!-- Order -->
+  <div id="order" class="section">
+    <h2>Order</h2>
+    <button class="btn-add" onclick="openModal('order')">+ Add</button>
+    <table>
+      <thead>
+        <tr>
+          <th>Order ID</th><th>Customer ID</th><th>Employee ID</th><th>Date</th><th>Total</th><th>Status</th><th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="orderTable"></tbody>
+    </table>
+  </div>
+
+  <!-- Product -->
+  <div id="product" class="section">
+    <h2>Product</h2>
+    <button class="btn-add" onclick="openModal('product')">+ Add</button>
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th><th>Name</th><th>Price</th><th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="productTable"></tbody>
+    </table>
+  </div>
+
+  <!-- Order Detail -->
+  <div id="orderDetail" class="section">
+    <h2>Order Detail</h2>
+    <button class="btn-add" onclick="openModal('orderDetail')">+ Add</button>
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th><th>Order ID</th><th>Product ID</th><th>Qty</th><th>Price</th><th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="orderDetailTable"></tbody>
+    </table>
+  </div>
+
+<!-- Modal -->
+<div class="modal" id="mainModal">
+  <div class="modal-content">
+    <span class="close" onclick="closeModal()">&times;</span>
+    <h3 id="modalTitle"></h3>
+    <div id="modalFields"></div>
+    <button onclick="saveData()">Save</button>
+  </div>
+</div>
+
+<script>
+  let currentSection = "customer";
+  let editId = null;
+
+  // Sample data
+  let data = {
+    customer: [
+      {id:1, firstName:"John", lastName:"Doe", gender:"Male", phone:"123456", address:"123 Street"},
+      {id:2, firstName:"Jane", lastName:"Smith", gender:"Female", phone:"654321", address:"456 Road"}
+    ],
+    order: [
+      {id:1, customerId:1, employeeId:10, date:"2025-09-01", total:100, status:"Completed"}
+    ],
+    product: [
+      {id:1, name:"Espresso", price:2.5},
+      {id:2, name:"Latte", price:3.5}
+    ],
+    orderDetail: [
+      {id:1, orderId:1, productId:1, qty:2, price:5}
+    ],
+    owner: [
+      {id:1, firstName:"Ryan", lastName:"Soeun", gender:"Male", position:"CEO", phone:"855-09876", address:"Cambodia"}
+    ]
+  };
+
+  // Fields for modal per section
+  const fields = {
+    customer: ["firstName","lastName","gender","phone","address"],
+    order: ["customerId","employeeId","date","total","status"],
+    product: ["name","price"],
+    orderDetail: ["orderId","productId","qty","price"],
+    owner: ["firstName","lastName","gender","position","phone","address"]
+  };
+
+  function showSection(section) {
+    document.querySelectorAll(".section").forEach(s => s.classList.remove("active"));
+    document.getElementById(section).classList.add("active");
+    currentSection = section;
+    renderTable();
+  }
+
+  function renderTable() {
+    const tbody = document.getElementById(currentSection + "Table");
+    tbody.innerHTML = "";
+    data[currentSection].forEach(item => {
+      let row = "<tr>";
+      for (let key in item) row += `<td>${item[key]}</td>`;
+      row += `<td>
+        <button class="action-btn edit-btn" onclick="editData(${item.id})">✏</button>
+        <button class="action-btn delete-btn" onclick="deleteData(${item.id})">✖</button>
+      </td>`;
+      row += "</tr>";
+      tbody.innerHTML += row;
+    });
+  }
+
+  function openModal(section, isEdit=false) {
+    currentSection = section;
+    document.getElementById("mainModal").style.display = "flex";
+    document.getElementById("modalTitle").innerText = (isEdit ? "Edit " : "Add ") + section;
+    const container = document.getElementById("modalFields");
+    container.innerHTML = "";
+    fields[section].forEach(f => {
+      container.innerHTML += `<input type="text" id="${f}" placeholder="${f}">`;
+    });
+  }
+
+  function closeModal() {
+    document.getElementById("mainModal").style.display = "none";
+    editId = null;
+  }
+
+  function saveData() {
+    let newItem = {};
+    fields[currentSection].forEach(f => newItem[f] = document.getElementById(f).value);
+    if (editId) {
+      let obj = data[currentSection].find(o => o.id === editId);
+      Object.assign(obj,newItem);
+      editId = null;
+    } else {
+      const id = data[currentSection].length ? data[currentSection][data[currentSection].length-1].id+1 : 1;
+      newItem.id = id;
+      data[currentSection].push(newItem);
+    }
+    renderTable();
+    closeModal();
+  }
+
+  function editData(id) {
+    editId = id;
+    openModal(currentSection,true);
+    let obj = data[currentSection].find(o => o.id === id);
+    fields[currentSection].forEach(f => document.getElementById(f).value = obj[f] || "");
+  }
+
+  function deleteData(id) {
+    data[currentSection] = data[currentSection].filter(o => o.id !== id);
+    renderTable();
+  }
+
+  // Initial render
+  renderTable();
+</script>
+
+</body>
+</html>

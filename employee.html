@@ -173,7 +173,8 @@
     <a href="#" onclick="showSection('order')">Order</a>
     <a href="#" onclick="showSection('product')">Product</a>
     <a href="#" onclick="showSection('orderDetail')">Order_Detail</a>
-    <button>Logout</button>
+    <button onclick="logout()">Logout</button>
+
   </nav>
 </header>
 
@@ -235,6 +236,7 @@
       <tbody id="orderDetailTable"></tbody>
     </table>
   </div>
+
 
 <!-- Modal -->
 <div class="modal" id="mainModal">
@@ -345,9 +347,22 @@
     data[currentSection] = data[currentSection].filter(o => o.id !== id);
     renderTable();
   }
+  function logout() {
+  // Clear any session-related data (if stored in localStorage/sessionStorage)
+  localStorage.clear();
+  sessionStorage.clear();
+
+  // Optionally show a confirmation
+  alert("You have been logged out.");
+
+  // Redirect to login page (adjust the path as needed)
+  window.location.href = "login.html";
+}
+
 
   // Initial render
   renderTable();
+  
 </script>
 
 </body>

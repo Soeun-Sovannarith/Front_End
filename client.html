@@ -55,6 +55,14 @@
     /* Coffee Cards */
     .coffee-card {
       transition: transform 0.3s ease, box-shadow 0.3s ease;
+      margin-bottom: 20px;
+    }
+    /* Coffee Card Images - make uniform size and responsive */
+    .coffee-card img {
+      width: 100%;
+      aspect-ratio: 1 / 1;   /* keeps images square */
+      object-fit: cover;     /* crops without distortion */
+      
     }
     .coffee-card:hover {
       transform: translateY(-5px);
@@ -270,220 +278,776 @@
 <!-- Menu Section -->
 <section id="menu" class="container my-5">
   <h1 class="text-center mb-4">Our Menu</h1>
+  <div class="row">
 
-  <!-- Coffee Section -->
-  <h2 class="text-center mb-4">Coffee</h2>
-  <div class="row g-4">
-    <!-- Coffee Item 1 -->
-    <div class="col-md-4">
-      <div class="card coffee-card">
-        <img src="img/coffee/iced-americano.jpg" class="card-img-top img-fluid" alt="Iced Americano">
-        <div class="card-body text-center">
-          <h5 class="card-title">Iced Americano</h5>
-          <p class="card-text">$2.50</p>
-          <div class="order-controls">
-            <select class="form-select form-select-sm" style="max-width: 90px;">
-              <option>0%</option><option>25%</option><option>50%</option><option>75%</option><option selected>100%</option>
-            </select>
-            <div class="qty-box">
-              <button onclick="changeQty(this, -1)">-</button>
-              <input type="text" value="1" readonly>
-              <button onclick="changeQty(this, 1)">+</button>
-            </div>
-            <div class="note-box"><input type="text" placeholder="Note"></div>
+  <!-- ID 1 -->
+  <div class="col-md-4">
+    <div class="card coffee-card">
+      <img src="img/coffee/cappuccino.jpg" class="card-img-top img-fluid" alt="Capucino">
+      <div class="card-body text-center">
+        <h5 class="card-title"></h5>
+        <p class="card-text"></p>
+        <div class="order-controls">
+          <select class="form-select form-select-sm" style="max-width: 90px;">
+            <option>0%</option><option>25%</option><option>50%</option><option>75%</option><option selected>100%</option>
+          </select>
+          <div class="qty-box">
+            <button onclick="changeQty(this, -1)">-</button>
+            <input type="text" value="1" readonly>
+            <button onclick="changeQty(this, 1)">+</button>
           </div>
-          <button class="btn btn-coffee w-100" onclick="orderNow('Iced Americano', 2.50, this)">Order</button>
+          <div class="note-box"><input type="text" placeholder="Note"></div>
         </div>
+        <button class="btn btn-coffee w-100" onclick="orderNow('Capucino', 10000, this)">Order</button>
       </div>
     </div>
-
-    <!-- Coffee Item 2 -->
-    <div class="col-md-4">
-      <div class="card coffee-card">
-        <img src="img/coffee/iced latte.jpg" class="card-img-top img-fluid" alt="Iced Latte">
-        <div class="card-body text-center">
-          <h5 class="card-title">Iced Latte</h5>
-          <p class="card-text">$3.50</p>
-          <div class="order-controls">
-            <select class="form-select form-select-sm" style="max-width: 90px;">
-              <option>0%</option><option>25%</option><option>50%</option><option>75%</option><option selected>100%</option>
-            </select>
-            <div class="qty-box">
-              <button onclick="changeQty(this, -1)">-</button>
-              <input type="text" value="1" readonly>
-              <button onclick="changeQty(this, 1)">+</button>
-            </div>
-            <div class="note-box"><input type="text" placeholder="Note"></div>
-          </div>
-          <button class="btn btn-coffee w-100" onclick="orderNow('Iced Latte', 3.50, this)">Order</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- Coffee Item 3 -->
-    <div class="col-md-4">
-      <div class="card coffee-card">
-        <img src="img/coffee/iced-mocha.jpg" class="card-img-top img-fluid" alt="Iced Mocha">
-        <div class="card-body text-center">
-          <h5 class="card-title">Iced Mocha</h5>
-          <p class="card-text">$2.50</p>
-          <div class="order-controls">
-            <select class="form-select form-select-sm" style="max-width: 90px;">
-              <option>0%</option><option>25%</option><option>50%</option><option>75%</option><option selected>100%</option>
-            </select>
-            <div class="qty-box">
-              <button onclick="changeQty(this, -1)">-</button>
-              <input type="text" value="1" readonly>
-              <button onclick="changeQty(this, 1)">+</button>
-            </div>
-            <div class="note-box"><input type="text" placeholder="Note"></div>
-          </div>
-          <button class="btn btn-coffee w-100" onclick="orderNow('Iced Mocha', 2.50, this)">Order</button>
-        </div>
-      </div>
-    </div>
-
-    <h2 class="text-center mb-4">Matcha</h2>
-    <!-- Matcha Item 1 -->
-     <div class="col-md-4">
-      <div class="card coffee-card">
-        <img src="img/matcha/matcha latte.jpg" class="card-img-top img-fluid" alt="Matcha Latte">
-        <div class="card-body text-center">
-          <h5 class="card-title">Matcha Latte</h5>
-          <p class="card-text">$3.00</p>
-          <div class="order-controls">
-            <select class="form-select form-select-sm" style="max-width: 90px;">
-              <option>0%</option><option>25%</option><option>50%</option><option>75%</option><option selected>100%</option>
-            </select>
-            <div class="qty-box">
-              <button onclick="changeQty(this, -1)">-</button>
-              <input type="text" value="1" readonly>
-              <button onclick="changeQty(this, 1)">+</button>
-            </div>
-            <div class="note-box"><input type="text" placeholder="Note"></div>
-          </div>
-          <button class="btn btn-coffee w-100" onclick="orderNow('Matcha Latte', 3.00, this)">Order</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- Matcha Item 2 -->
-     <div class="col-md-4">
-      <div class="card coffee-card">
-        <img src="img/matcha/strawberry matcha.jpg" class="card-img-top img-fluid" alt="Strawberry Matcha">
-        <div class="card-body text-center">
-          <h5 class="card-title">Strawberry Matcha</h5>
-          <p class="card-text">$3.50</p>
-          <div class="order-controls">
-            <select class="form-select form-select-sm" style="max-width: 90px;">
-              <option>0%</option><option>25%</option><option>50%</option><option>75%</option><option selected>100%</option>
-            </select>
-            <div class="qty-box">
-              <button onclick="changeQty(this, -1)">-</button>
-              <input type="text" value="1" readonly>
-              <button onclick="changeQty(this, 1)">+</button>
-            </div>
-            <div class="note-box"><input type="text" placeholder="Note"></div>
-          </div>
-          <button class="btn btn-coffee w-100" onclick="orderNow('Strawberry Matcha', 3.50, this)">Order</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- Matcha Item3  -->
-     <div class="col-md-4">
-      <div class="card coffee-card">
-        <img src="img/matcha/CocoMatcha.jpg" class="card-img-top img-fluid" alt="Coconut Matcha">
-        <div class="card-body text-center">
-          <h5 class="card-title">Coconut Matcha</h5>
-          <p class="card-text">$2.00</p>
-          <div class="order-controls">
-            <select class="form-select form-select-sm" style="max-width: 90px;">
-              <option>0%</option><option>25%</option><option>50%</option><option>75%</option><option selected>100%</option>
-            </select>
-            <div class="qty-box">
-              <button onclick="changeQty(this, -1)">-</button>
-              <input type="text" value="1" readonly>
-              <button onclick="changeQty(this, 1)">+</button>
-            </div>
-            <div class="note-box"><input type="text" placeholder="Note"></div>
-          </div>
-          <button class="btn btn-coffee w-100" onclick="orderNow('Coconut Matcha', 2.00, this)">Order</button>
-        </div>
-      </div>
-    </div>
-
-    <h2 class="text-center mb-4">Tea</h2>
-    <!-- Tea Item 1 -->
-     <div class="col-md-4">
-      <div class="card coffee-card">
-        <img src="img/tea/iced lemon tea.jpg" class="card-img-top img-fluid" alt="Iced Lemon Tea">
-        <div class="card-body text-center">
-          <h5 class="card-title">Iced Lemon Tea</h5>
-          <p class="card-text">$1.50</p>
-          <div class="order-controls">
-            <select class="form-select form-select-sm" style="max-width: 90px;">
-              <option>0%</option><option>25%</option><option>50%</option><option>75%</option><option selected>100%</option>
-            </select>
-            <div class="qty-box">
-              <button onclick="changeQty(this, -1)">-</button>
-              <input type="text" value="1" readonly>
-              <button onclick="changeQty(this, 1)">+</button>
-            </div>
-            <div class="note-box"><input type="text" placeholder="Note"></div>
-          </div>
-          <button class="btn btn-coffee w-100" onclick="orderNow('Iced Lemon Tea', 1.50, this)">Order</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- Tea Item 2 -->
-     <div class="col-md-4">
-      <div class="card coffee-card">
-        <img src="img/tea/black-tea-macchiato.jpg" class="card-img-top img-fluid" alt="Black Tea Macchiato">
-        <div class="card-body text-center">
-          <h5 class="card-title">Black Tea Macchiato</h5>
-          <p class="card-text">$2.00</p>
-          <div class="order-controls">
-            <select class="form-select form-select-sm" style="max-width: 90px;">
-              <option>0%</option><option>25%</option><option>50%</option><option>75%</option><option selected>100%</option>
-            </select>
-            <div class="qty-box">
-              <button onclick="changeQty(this, -1)">-</button>
-              <input type="text" value="1" readonly>
-              <button onclick="changeQty(this, 1)">+</button>
-            </div>
-            <div class="note-box"><input type="text" placeholder="Note"></div>
-          </div>
-          <button class="btn btn-coffee w-100" onclick="orderNow('Black Tea Macchiato', 2.00, this)">Order</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- tea Item3  -->
-     <div class="col-md-4">
-      <div class="card coffee-card">
-        <img src="img/tea/Brown-Sugar-Milk-Tea.jpg" class="card-img-top img-fluid" alt="Brown Sugar Milk Tea">
-        <div class="card-body text-center">
-          <h5 class="card-title">Brown Sugar Milk Tea</h5>
-          <p class="card-text">$2.50</p>
-          <div class="order-controls">
-            <select class="form-select form-select-sm" style="max-width: 90px;">
-              <option>0%</option><option>25%</option><option>50%</option><option>75%</option><option selected>100%</option>
-            </select>
-            <div class="qty-box">
-              <button onclick="changeQty(this, -1)">-</button>
-              <input type="text" value="1" readonly>
-              <button onclick="changeQty(this, 1)">+</button>
-            </div>
-            <div class="note-box"><input type="text" placeholder="Note"></div>
-          </div>
-          <button class="btn btn-coffee w-100" onclick="orderNow('Brown Sugar Milk Tea', 2.50, this)">Order</button>
-        </div>
-      </div>
-    </div>
-
   </div>
+
+
+  <!-- ID 2 -->
+  <div class="col-md-4">
+    <div class="card coffee-card">
+      <img src="img/matcha/matcha latte.jpg" class="card-img-top img-fluid" alt="Matcha">
+      <div class="card-body text-center">
+        <h5 class="card-title"></h5>
+        <p class="card-text"></p>
+        <div class="order-controls">
+          <select class="form-select form-select-sm" style="max-width: 90px;">
+            <option>0%</option><option>25%</option><option>50%</option><option>75%</option><option selected>100%</option>
+          </select>
+          <div class="qty-box">
+            <button onclick="changeQty(this, -1)">-</button>
+            <input type="text" value="1" readonly>
+            <button onclick="changeQty(this, 1)">+</button>
+          </div>
+          <div class="note-box"><input type="text" placeholder="Note"></div>
+        </div>
+        <button class="btn btn-coffee w-100" onclick="orderNow('Matcha', 20000, this)">Order</button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ID 3 -->
+  <div class="col-md-4">
+    <div class="card coffee-card">
+      <img src="img/coffee/Frappe latte.jpg" class="card-img-top img-fluid" alt="Frapped latte">
+      <div class="card-body text-center">
+        <h5 class="card-title"></h5>
+        <p class="card-text"></p>
+        <div class="order-controls">
+          <select class="form-select form-select-sm" style="max-width: 90px;">
+            <option>0%</option><option>25%</option><option>50%</option><option>75%</option><option selected>100%</option>
+          </select>
+          <div class="qty-box">
+            <button onclick="changeQty(this, -1)">-</button>
+            <input type="text" value="1" readonly>
+            <button onclick="changeQty(this, 1)">+</button>
+          </div>
+          <div class="note-box"><input type="text" placeholder="Note"></div>
+        </div>
+        <button class="btn btn-coffee w-100" onclick="orderNow('Frapped latte', 12000, this)">Order</button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ID 4 -->
+  <div class="col-md-4">
+    <div class="card coffee-card">
+      <img src="img/coffee/esspresso.jpg" class="card-img-top img-fluid" alt="Coffee‑Espresso">
+      <div class="card-body text-center">
+        <h5 class="card-title"></h5>
+        <p class="card-text"></p>
+        <div class="order-controls">
+          <select class="form-select form-select-sm" style="max-width: 90px;">
+            <option>0%</option><option>25%</option><option>50%</option><option>75%</option><option selected>100%</option>
+          </select>
+          <div class="qty-box">
+            <button onclick="changeQty(this, -1)">-</button>
+            <input type="text" value="1" readonly>
+            <button onclick="changeQty(this, 1)">+</button>
+          </div>
+          <div class="note-box"><input type="text" placeholder="Note"></div>
+        </div>
+        <button class="btn btn-coffee w-100" onclick="orderNow('Coffee‑Espresso', 2.50, this)">Order</button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ID 5 -->
+  <div class="col-md-4">
+    <div class="card coffee-card">
+      <img src="img/coffee/iced-americano.jpg" class="card-img-top img-fluid" alt="Coffee‑Americano">
+      <div class="card-body text-center">
+        <h5 class="card-title"></h5>
+        <p class="card-text"></p>
+        <div class="order-controls">
+          <select class="form-select form-select-sm" style="max-width: 90px;">
+            <option>0%</option><option>25%</option><option>50%</option><option>75%</option><option selected>100%</option>
+          </select>
+          <div class="qty-box">
+            <button onclick="changeQty(this, -1)">-</button>
+            <input type="text" value="1" readonly>
+            <button onclick="changeQty(this, 1)">+</button>
+          </div>
+          <div class="note-box"><input type="text" placeholder="Note"></div>
+        </div>
+        <button class="btn btn-coffee w-100" onclick="orderNow('Coffee‑Americano', 2.80, this)">Order</button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ID 6 -->
+  <div class="col-md-4">
+    <div class="card coffee-card">
+      <img src="img/coffee/iced latte.jpg" class="card-img-top img-fluid" alt="Coffee‑Latte">
+      <div class="card-body text-center">
+        <h5 class="card-title"></h5>
+        <p class="card-text"></p>
+        <div class="order-controls">
+          <select class="form-select form-select-sm" style="max-width: 90px;">
+            <option>0%</option><option>25%</option><option>50%</option><option>75%</option><option selected>100%</option>
+          </select>
+          <div class="qty-box">
+            <button onclick="changeQty(this, -1)">-</button>
+            <input type="text" value="1" readonly>
+            <button onclick="changeQty(this, 1)">+</button>
+          </div>
+          <div class="note-box"><input type="text" placeholder="Note"></div>
+        </div>
+        <button class="btn btn-coffee w-100" onclick="orderNow('Coffee‑Latte', 3.20, this)">Order</button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ID 7 -->
+  <div class="col-md-4">
+    <div class="card coffee-card">
+      <img src="img/coffee/cappuccino.png" class="card-img-top img-fluid" alt="Coffee‑Cappuccino">
+      <div class="card-body text-center">
+        <h5 class="card-title"></h5>
+        <p class="card-text"></p>
+        <div class="order-controls">
+          <select class="form-select form-select-sm" style="max-width: 90px;">
+            <option>0%</option><option>25%</option><option>50%</option><option>75%</option><option selected>100%</option>
+          </select>
+          <div class="qty-box">
+            <button onclick="changeQty(this, -1)">-</button>
+            <input type="text" value="1" readonly>
+            <button onclick="changeQty(this, 1)">+</button>
+          </div>
+          <div class="note-box"><input type="text" placeholder="Note"></div>
+        </div>
+        <button class="btn btn-coffee w-100" onclick="orderNow('Coffee‑Cappuccino', 3.30, this)">Order</button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ID 8 -->
+  <div class="col-md-4">
+    <div class="card coffee-card">
+      <img src="img/coffee/iced-mocha.jpg" class="card-img-top img-fluid" alt="Coffee‑Mocha">
+      <div class="card-body text-center">
+        <h5 class="card-title"></h5>
+        <p class="card-text"></p>
+        <div class="order-controls">
+          <select class="form-select form-select-sm" style="max-width: 90px;">
+            <option>0%</option><option>25%</option><option>50%</option><option>75%</option><option selected>100%</option>
+          </select>
+          <div class="qty-box">
+            <button onclick="changeQty(this, -1)">-</button>
+            <input type="text" value="1" readonly>
+            <button onclick="changeQty(this, 1)">+</button>
+          </div>
+          <div class="note-box"><input type="text" placeholder="Note"></div>
+        </div>
+        <button class="btn btn-coffee w-100" onclick="orderNow('Coffee‑Mocha', 3.60, this)">Order</button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ID 9 -->
+  <div class="col-md-4">
+    <div class="card coffee-card">
+      <img src="img/coffee/Iced-Flat-White.jpg" class="card-img-top img-fluid" alt="Coffee‑Flat White">
+      <div class="card-body text-center">
+        <h5 class="card-title"></h5>
+        <p class="card-text"></p>
+        <div class="order-controls">
+          <select class="form-select form-select-sm" style="max-width: 90px;">
+            <option>0%</option><option>25%</option><option>50%</option><option>75%</option><option selected>100%</option>
+          </select>
+          <div class="qty-box">
+            <button onclick="changeQty(this, -1)">-</button>
+            <input type="text" value="1" readonly>
+            <button onclick="changeQty(this, 1)">+</button>
+          </div>
+          <div class="note-box"><input type="text" placeholder="Note"></div>
+        </div>
+        <button class="btn btn-coffee w-100" onclick="orderNow('Coffee‑Flat White', 3.10, this)">Order</button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ID 10 -->
+  <div class="col-md-4">
+    <div class="card coffee-card">
+      <img src="img/coffee/coffeemacchiato.jpg" class="card-img-top img-fluid" alt="Coffee‑Macchiato">
+      <div class="card-body text-center">
+        <h5 class="card-title"></h5>
+        <p class="card-text"></p>
+        <div class="order-controls">
+          <select class="form-select form-select-sm" style="max-width: 90px;">
+            <option>0%</option><option>25%</option><option>50%</option><option>75%</option><option selected>100%</option>
+          </select>
+          <div class="qty-box">
+            <button onclick="changeQty(this, -1)">-</button>
+            <input type="text" value="1" readonly>
+            <button onclick="changeQty(this, 1)">+</button>
+          </div>
+          <div class="note-box"><input type="text" placeholder="Note"></div>
+        </div>
+        <button class="btn btn-coffee w-100" onclick="orderNow('Coffee‑Macchiato', 2.90, this)">Order</button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ID 11 -->
+  <div class="col-md-4">
+    <div class="card coffee-card">
+      <img src="img/coffee/ristretto.jpg" class="card-img-top img-fluid" alt="Coffee‑Ristretto">
+      <div class="card-body text-center">
+        <h5 class="card-title"></h5>
+        <p class="card-text"></p>
+        <div class="order-controls">
+          <select class="form-select form-select-sm" style="max-width: 90px;">
+            <option>0%</option><option>25%</option><option>50%</option><option>75%</option><option selected>100%</option>
+          </select>
+          <div class="qty-box">
+            <button onclick="changeQty(this, -1)">-</button>
+            <input type="text" value="1" readonly>
+            <button onclick="changeQty(this, 1)">+</button>
+          </div>
+          <div class="note-box"><input type="text" placeholder="Note"></div>
+        </div>
+        <button class="btn btn-coffee w-100" onclick="orderNow('Coffee‑Ristretto', 2.40, this)">Order</button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ID 12 -->
+  <div class="col-md-4">
+    <div class="card coffee-card">
+      <img src="img/coffee/affogato.jpg" class="card-img-top img-fluid" alt="Coffee‑Affogato">
+      <div class="card-body text-center">
+        <h5 class="card-title"></h5>
+        <p class="card-text"></p>
+        <div class="order-controls">
+          <select class="form-select form-select-sm" style="max-width: 90px;">
+            <option>0%</option><option>25%</option><option>50%</option><option>75%</option><option selected>100%</option>
+          </select>
+          <div class="qty-box">
+            <button onclick="changeQty(this, -1)">-</button>
+            <input type="text" value="1" readonly>
+            <button onclick="changeQty(this, 1)">+</button>
+          </div>
+          <div class="note-box"><input type="text" placeholder="Note"></div>
+        </div>
+        <button class="btn btn-coffee w-100" onclick="orderNow('Coffee‑Affogato', 4.00, this)">Order</button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ID 13 -->
+  <div class="col-md-4">
+    <div class="card coffee-card">
+      <img src="img/coffee/cold-brew.jpg" class="card-img-top img-fluid" alt="Coffee‑Cold Brew">
+      <div class="card-body text-center">
+        <h5 class="card-title"></h5>
+        <p class="card-text"></p>
+        <div class="order-controls">
+          <select class="form-select form-select-sm" style="max-width: 90px;">
+            <option>0%</option><option>25%</option><option>50%</option><option>75%</option><option selected>100%</option>
+          </select>
+          <div class="qty-box">
+            <button onclick="changeQty(this, -1)">-</button>
+            <input type="text" value="1" readonly>
+            <button onclick="changeQty(this, 1)">+</button>
+          </div>
+          <div class="note-box"><input type="text" placeholder="Note"></div>
+        </div>
+        <button class="btn btn-coffee w-100" onclick="orderNow('Coffee‑Cold Brew', 3.00, this)">Order</button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ID 14 -->
+  <div class="col-md-4">
+    <div class="card coffee-card">
+      <img src="img/matcha/matcha classic.jpg" class="card-img-top img-fluid" alt="Matcha‑Classic">
+      <div class="card-body text-center">
+        <h5 class="card-title"></h5>
+        <p class="card-text"></p>
+        <div class="order-controls">
+          <select class="form-select form-select-sm" style="max-width: 90px;">
+            <option>0%</option><option>25%</option><option>50%</option><option>75%</option><option selected>100%</option>
+          </select>
+          <div class="qty-box">
+            <button onclick="changeQty(this, -1)">-</button>
+            <input type="text" value="1" readonly>
+            <button onclick="changeQty(this, 1)">+</button>
+          </div>
+          <div class="note-box"><input type="text" placeholder="Note"></div>
+        </div>
+        <button class="btn btn-coffee w-100" onclick="orderNow('Matcha‑Classic', 3.50, this)">Order</button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ID 15 -->
+  <div class="col-md-4">
+    <div class="card coffee-card">
+      <img src="img/matcha/matcha latte.jpg" class="card-img-top img-fluid" alt="Matcha‑Latte">
+      <div class="card-body text-center">
+        <h5 class="card-title"></h5>
+        <p class="card-text"></p>
+        <div class="order-controls">
+          <select class="form-select form-select-sm" style="max-width: 90px;">
+            <option>0%</option><option>25%</option><option>50%</option><option>75%</option><option selected>100%</option>
+          </select>
+          <div class="qty-box">
+            <button onclick="changeQty(this, -1)">-</button>
+            <input type="text" value="1" readonly>
+            <button onclick="changeQty(this, 1)">+</button>
+          </div>
+          <div class="note-box"><input type="text" placeholder="Note"></div>
+        </div>
+        <button class="btn btn-coffee w-100" onclick="orderNow('Matcha‑Latte', 3.80, this)">Order</button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ID 16 -->
+  <div class="col-md-4">
+    <div class="card coffee-card">
+      <img src="img/matcha/iced-matcha-tea.jpg" class="card-img-top img-fluid" alt="Matcha‑Iced">
+      <div class="card-body text-center">
+        <h5 class="card-title"></h5>
+        <p class="card-text"></p>
+        <div class="order-controls">
+          <select class="form-select form-select-sm" style="max-width: 90px;">
+            <option>0%</option><option>25%</option><option>50%</option><option>75%</option><option selected>100%</option>
+          </select>
+          <div class="qty-box">
+            <button onclick="changeQty(this, -1)">-</button>
+            <input type="text" value="1" readonly>
+            <button onclick="changeQty(this, 1)">+</button>
+          </div>
+          <div class="note-box"><input type="text" placeholder="Note"></div>
+        </div>
+        <button class="btn btn-coffee w-100" onclick="orderNow('Matcha‑Iced', 3.70, this)">Order</button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ID 17 -->
+  <div class="col-md-4">
+    <div class="card coffee-card">
+      <img src="img/matcha/MatchaMocha.jpg" class="card-img-top img-fluid" alt="Matcha‑Mocha">
+      <div class="card-body text-center">
+        <h5 class="card-title"></h5>
+        <p class="card-text"></p>
+        <div class="order-controls">
+          <select class="form-select form-select-sm" style="max-width: 90px;">
+            <option>0%</option><option>25%</option><option>50%</option><option>75%</option><option selected>100%</option>
+          </select>
+          <div class="qty-box">
+            <button onclick="changeQty(this, -1)">-</button>
+            <input type="text" value="1" readonly>
+            <button onclick="changeQty(this, 1)">+</button>
+          </div>
+          <div class="note-box"><input type="text" placeholder="Note"></div>
+        </div>
+        <button class="btn btn-coffee w-100" onclick="orderNow('Matcha‑Mocha', 4.20, this)">Order</button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ID 18 -->
+  <div class="col-md-4">
+    <div class="card coffee-card">
+      <img src="img/matcha/Honey_Matcha.jpg" class="card-img-top img-fluid" alt="Matcha‑Honey">
+      <div class="card-body text-center">
+        <h5 class="card-title"></h5>
+        <p class="card-text"></p>
+        <div class="order-controls">
+          <select class="form-select form-select-sm" style="max-width: 90px;">
+            <option>0%</option><option>25%</option><option>50%</option><option>75%</option><option selected>100%</option>
+          </select>
+          <div class="qty-box">
+            <button onclick="changeQty(this, -1)">-</button>
+            <input type="text" value="1" readonly>
+            <button onclick="changeQty(this, 1)">+</button>
+          </div>
+          <div class="note-box"><input type="text" placeholder="Note"></div>
+        </div>
+        <button class="btn btn-coffee w-100" onclick="orderNow('Matcha‑Honey', 4.00, this)">Order</button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ID 19 -->
+  <div class="col-md-4">
+    <div class="card coffee-card">
+      <img src="img/matcha/vanilla-matcha.jpg" class="card-img-top img-fluid" alt="Matcha‑Vanilla">
+      <div class="card-body text-center">
+        <h5 class="card-title"></h5>
+        <p class="card-text"></p>
+        <div class="order-controls">
+          <select class="form-select form-select-sm" style="max-width: 90px;">
+            <option>0%</option><option>25%</option><option>50%</option><option>75%</option><option selected>100%</option>
+          </select>
+          <div class="qty-box">
+            <button onclick="changeQty(this, -1)">-</button>
+            <input type="text" value="1" readonly>
+            <button onclick="changeQty(this, 1)">+</button>
+          </div>
+          <div class="note-box"><input type="text" placeholder="Note"></div>
+        </div>
+        <button class="btn btn-coffee w-100" onclick="orderNow('Matcha‑Vanilla', 3.90, this)">Order</button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ID 20 -->
+  <div class="col-md-4">
+    <div class="card coffee-card">
+      <img src="img/matcha/strawberry matcha.jpg" class="card-img-top img-fluid" alt="Matcha‑Strawberry">
+      <div class="card-body text-center">
+        <h5 class="card-title"></h5>
+        <p class="card-text"></p>
+        <div class="order-controls">
+          <select class="form-select form-select-sm" style="max-width: 90px;">
+            <option>0%</option><option>25%</option><option>50%</option><option>75%</option><option selected>100%</option>
+          </select>
+          <div class="qty-box">
+            <button onclick="changeQty(this, -1)">-</button>
+            <input type="text" value="1" readonly>
+            <button onclick="changeQty(this, 1)">+</button>
+          </div>
+          <div class="note-box"><input type="text" placeholder="Note"></div>
+        </div>
+        <button class="btn btn-coffee w-100" onclick="orderNow('Matcha‑Strawberry', 4.10, this)">Order</button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ID 21 -->
+  <div class="col-md-4">
+    <div class="card coffee-card">
+      <img src="img/matcha/Chocolate-Matcha.jpg" class="card-img-top img-fluid" alt="Matcha‑Chocolate">
+      <div class="card-body text-center">
+        <h5 class="card-title"></h5>
+        <p class="card-text"></p>
+        <div class="order-controls">
+          <select class="form-select form-select-sm" style="max-width: 90px;">
+            <option>0%</option><option>25%</option><option>50%</option><option>75%</option><option selected>100%</option>
+          </select>
+          <div class="qty-box">
+            <button onclick="changeQty(this, -1)">-</button>
+            <input type="text" value="1" readonly>
+            <button onclick="changeQty(this, 1)">+</button>
+          </div>
+          <div class="note-box"><input type="text" placeholder="Note"></div>
+        </div>
+        <button class="btn btn-coffee w-100" onclick="orderNow('Matcha‑Chocolate', 4.30, this)">Order</button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ID 22 -->
+  <div class="col-md-4">
+    <div class="card coffee-card">
+      <img src="img/matcha/CocoMatcha.jpg" class="card-img-top img-fluid" alt="Matcha‑Coconut">
+      <div class="card-body text-center">
+        <h5 class="card-title"></h5>
+        <p class="card-text"></p>
+        <div class="order-controls">
+          <select class="form-select form-select-sm" style="max-width: 90px;">
+            <option>0%</option><option>25%</option><option>50%</option><option>75%</option><option selected>100%</option>
+          </select>
+          <div class="qty-box">
+            <button onclick="changeQty(this, -1)">-</button>
+            <input type="text" value="1" readonly>
+            <button onclick="changeQty(this, 1)">+</button>
+          </div>
+          <div class="note-box"><input type="text" placeholder="Note"></div>
+        </div>
+        <button class="btn btn-coffee w-100" onclick="orderNow('Matcha‑Coconut', 3.80, this)">Order</button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ID 23 -->
+  <div class="col-md-4">
+    <div class="card coffee-card">
+      <img src="img/matcha/blueberry matcha.jpg" class="card-img-top img-fluid" alt="Matcha‑Blueberry">
+      <div class="card-body text-center">
+        <h5 class="card-title"></h5>
+        <p class="card-text"></p>
+        <div class="order-controls">
+          <select class="form-select form-select-sm" style="max-width: 90px;">
+            <option>0%</option><option>25%</option><option>50%</option><option>75%</option><option selected>100%</option>
+          </select>
+          <div class="qty-box">
+            <button onclick="changeQty(this, -1)">-</button>
+            <input type="text" value="1" readonly>
+            <button onclick="changeQty(this, 1)">+</button>
+          </div>
+          <div class="note-box"><input type="text" placeholder="Note"></div>
+        </div>
+        <button class="btn btn-coffee w-100" onclick="orderNow('Matcha‑Blueberry', 4.00, this)">Order</button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ID 24 -->
+  <div class="col-md-4">
+    <div class="card coffee-card">
+      <img src="img/tea/Black_Tea.jpg" class="card-img-top img-fluid" alt="Tea‑Black">
+      <div class="card-body text-center">
+        <h5 class="card-title"></h5>
+        <p class="card-text"></p>
+        <div class="order-controls">
+          <select class="form-select form-select-sm" style="max-width: 90px;">
+            <option>0%</option><option>25%</option><option>50%</option><option>75%</option><option selected>100%</option>
+          </select>
+          <div class="qty-box">
+            <button onclick="changeQty(this, -1)">-</button>
+            <input type="text" value="1" readonly>
+            <button onclick="changeQty(this, 1)">+</button>
+          </div>
+          <div class="note-box"><input type="text" placeholder="Note"></div>
+        </div>
+        <button class="btn btn-coffee w-100" onclick="orderNow('Tea‑Black', 2.00, this)">Order</button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ID 25 -->
+  <div class="col-md-4">
+    <div class="card coffee-card">
+      <img src="img/tea/green tea.jpg" class="card-img-top img-fluid" alt="Tea‑Green">
+      <div class="card-body text-center">
+        <h5 class="card-title"></h5>
+        <p class="card-text"></p>
+        <div class="order-controls">
+          <select class="form-select form-select-sm" style="max-width: 90px;">
+            <option>0%</option><option>25%</option><option>50%</option><option>75%</option><option selected>100%</option>
+          </select>
+          <div class="qty-box">
+            <button onclick="changeQty(this, -1)">-</button>
+            <input type="text" value="1" readonly>
+            <button onclick="changeQty(this, 1)">+</button>
+          </div>
+          <div class="note-box"><input type="text" placeholder="Note"></div>
+        </div>
+        <button class="btn btn-coffee w-100" onclick="orderNow('Tea‑Green', 2.10, this)">Order</button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ID 26 -->
+  <div class="col-md-4">
+    <div class="card coffee-card">
+      <img src="img/tea/earl grey.jpg" class="card-img-top img-fluid" alt="Tea‑Earl Grey">
+      <div class="card-body text-center">
+        <h5 class="card-title"></h5>
+        <p class="card-text"></p>
+        <div class="order-controls">
+          <select class="form-select form-select-sm" style="max-width: 90px;">
+            <option>0%</option><option>25%</option><option>50%</option><option>75%</option><option selected>100%</option>
+          </select>
+          <div class="qty-box">
+            <button onclick="changeQty(this, -1)">-</button>
+            <input type="text" value="1" readonly>
+            <button onclick="changeQty(this, 1)">+</button>
+          </div>
+          <div class="note-box"><input type="text" placeholder="Note"></div>
+        </div>
+        <button class="btn btn-coffee w-100" onclick="orderNow('Tea‑Earl Grey', 2.30, this)">Order</button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ID 27 -->
+  <div class="col-md-4">
+    <div class="card coffee-card">
+      <img src="img/tea/Chamomile.jpg" class="card-img-top img-fluid" alt="Tea‑Chamomile">
+      <div class="card-body text-center">
+        <h5 class="card-title"></h5>
+        <p class="card-text"></p>
+        <div class="order-controls">
+          <select class="form-select form-select-sm" style="max-width: 90px;">
+            <option>0%</option><option>25%</option><option>50%</option><option>75%</option><option selected>100%</option>
+          </select>
+          <div class="qty-box">
+            <button onclick="changeQty(this, -1)">-</button>
+            <input type="text" value="1" readonly>
+            <button onclick="changeQty(this, 1)">+</button>
+          </div>
+          <div class="note-box"><input type="text" placeholder="Note"></div>
+        </div>
+        <button class="btn btn-coffee w-100" onclick="orderNow('Tea‑Chamomile', 2.20, this)">Order</button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ID 28 -->
+  <div class="col-md-4">
+    <div class="card coffee-card">
+      <img src="img/tea/pepper mint.jpg" class="card-img-top img-fluid" alt="Tea‑Peppermint">
+      <div class="card-body text-center">
+        <h5 class="card-title"></h5>
+        <p class="card-text"></p>
+        <div class="order-controls">
+          <select class="form-select form-select-sm" style="max-width: 90px;">
+            <option>0%</option><option>25%</option><option>50%</option><option>75%</option><option selected>100%</option>
+          </select>
+          <div class="qty-box">
+            <button onclick="changeQty(this, -1)">-</button>
+            <input type="text" value="1" readonly>
+            <button onclick="changeQty(this, 1)">+</button>
+          </div>
+          <div class="note-box"><input type="text" placeholder="Note"></div>
+        </div>
+        <button class="btn btn-coffee w-100" onclick="orderNow('Tea‑Peppermint', 2.25, this)">Order</button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ID 29 -->
+  <div class="col-md-4">
+    <div class="card coffee-card">
+      <img src="img/tea/JapaneseOolong.jpg" class="card-img-top img-fluid" alt="Tea‑Oolong">
+      <div class="card-body text-center">
+        <h5 class="card-title"></h5>
+        <p class="card-text"></p>
+        <div class="order-controls">
+          <select class="form-select form-select-sm" style="max-width: 90px;">
+            <option>0%</option><option>25%</option><option>50%</option><option>75%</option><option selected>100%</option>
+          </select>
+          <div class="qty-box">
+            <button onclick="changeQty(this, -1)">-</button>
+            <input type="text" value="1" readonly>
+            <button onclick="changeQty(this, 1)">+</button>
+          </div>
+          <div class="note-box"><input type="text" placeholder="Note"></div>
+        </div>
+        <button class="btn btn-coffee w-100" onclick="orderNow('Tea‑Oolong', 2.40, this)">Order</button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ID 30 -->
+  <div class="col-md-4">
+    <div class="card coffee-card">
+      <img src="img/tea/jasmine.jpg" class="card-img-top img-fluid" alt="Tea‑Jasmine">
+      <div class="card-body text-center">
+        <h5 class="card-title"></h5>
+        <p class="card-text"></p>
+        <div class="order-controls">
+          <select class="form-select form-select-sm" style="max-width: 90px;">
+            <option>0%</option><option>25%</option><option>50%</option><option>75%</option><option selected>100%</option>
+          </select>
+          <div class="qty-box">
+            <button onclick="changeQty(this, -1)">-</button>
+            <input type="text" value="1" readonly>
+            <button onclick="changeQty(this, 1)">+</button>
+          </div>
+          <div class="note-box"><input type="text" placeholder="Note"></div>
+        </div>
+        <button class="btn btn-coffee w-100" onclick="orderNow('Tea‑Jasmine', 2.35, this)">Order</button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ID 31 -->
+  <div class="col-md-4">
+    <div class="card coffee-card">
+      <img src="img/tea/rooibos.jpg" class="card-img-top img-fluid" alt="Tea‑Rooibos">
+      <div class="card-body text-center">
+        <h5 class="card-title"></h5>
+        <p class="card-text"></p>
+        <div class="order-controls">
+          <select class="form-select form-select-sm" style="max-width: 90px;">
+            <option>0%</option><option>25%</option><option>50%</option><option>75%</option><option selected>100%</option>
+          </select>
+          <div class="qty-box">
+            <button onclick="changeQty(this, -1)">-</button>
+            <input type="text" value="1" readonly>
+            <button onclick="changeQty(this, 1)">+</button>
+          </div>
+          <div class="note-box"><input type="text" placeholder="Note"></div>
+        </div>
+        <button class="btn btn-coffee w-100" onclick="orderNow('Tea‑Rooibos', 2.15, this)">Order</button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ID 32 -->
+  <div class="col-md-4">
+    <div class="card coffee-card">
+      <img src="img/tea/Lemon-Ginger-Tea.jpg" class="card-img-top img-fluid" alt="Tea‑Lemon Ginger">
+      <div class="card-body text-center">
+        <h5 class="card-title"></h5>
+        <p class="card-text"></p>
+        <div class="order-controls">
+          <select class="form-select form-select-sm" style="max-width: 90px;">
+            <option>0%</option><option>25%</option><option>50%</option><option>75%</option><option selected>100%</option>
+          </select>
+          <div class="qty-box">
+            <button onclick="changeQty(this, -1)">-</button>
+            <input type="text" value="1" readonly>
+            <button onclick="changeQty(this, 1)">+</button>
+          </div>
+          <div class="note-box"><input type="text" placeholder="Note"></div>
+        </div>
+        <button class="btn btn-coffee w-100" onclick="orderNow('Tea‑Lemon Ginger', 2.50, this)">Order</button>
+      </div>
+    </div>
+  </div>
+
+</div>
 </section>
 
 <!-- About -->

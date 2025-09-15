@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Owner Dashboard - Coffee Shop</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body { font-family: Arial, sans-serif; padding-bottom: 60px; }
+    .hero { background:#38211E; color:#fff; text-align:center; padding:80px 20px; }
+    .hero h1 { font-size:2.5rem; font-weight:bold; }
+    .btn-coffee { background:#6f4e37; color:#fff; border-radius:25px; padding:6px 14px; transition:0.3s; }
+    .btn-coffee:hover { background:#d2691e; }
+  </style>
+</head>
+<body>
+
+<header>
+  <!-- Top Logo -->
+  <nav class="navbar bg-light border-bottom justify-content-center">
+    <a class="navbar-brand" href="#"><img src="img/logo/coffee.png" alt="Logo" height="120"></a>
+  </nav>
+
+  <!-- Navbar with Login -->
+  <nav class="navbar navbar-expand-lg bg-light sticky-top">
+    <div class="container">
+      <a class="navbar-brand fw-bold" href="#">Code Cafe Owner</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMenu">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarMenu">
+        <ul class="navbar-nav mx-auto" id="protectedNav">
+          <li class="nav-item"><a class="nav-link fw-bold" href="#tbl_employee">EMPLOYEE</a></li>
+          <li class="nav-item"><a class="nav-link fw-bold" href="#tbl_payment">PAYMENT</a></li>
+          <li class="nav-item"><a class="nav-link fw-bold" href="#tbl_purchase">PURCHASE</a></li>
+          <li class="nav-item"><a class="nav-link fw-bold" href="#tbl_purchase_detail">PURCHASE DETAIL</a></li>
+          <li class="nav-item"><a class="nav-link fw-bold" href="#tbl_receive_detail">RECEIVE DETAIL</a></li>
+          <li class="nav-item"><a class="nav-link fw-bold" href="#tbl_recieve_purchase">RECIEVE PURCHASE</a></li>
+          <li class="nav-item"><a class="nav-link fw-bold" href="#tbl_owner">OWNER</a></li>
+        </ul>
+        <button class="btn btn-coffee" data-bs-toggle="modal" data-bs-target="#loginModal" id="loginBtn">Login</button>
+        <button class="btn btn-danger d-none" id="logoutBtn" onclick="logout()">Logout</button>
+      </div>
+    </div>
+  </nav>
+</header>
+
+<!-- Hero -->
+<section class="hero" id="welcomeHero">
+  <h1>Owner Access</h1>
+  <p class="lead">Please login to manage your shop data</p>
+</section>
+
+<!-- Dashboard -->
+<div id="dashboard" style="display:none;">
+  <section class="hero">
+    <h1>Owner Dashboard</h1>
+    <p class="lead">Manage Employees, Payments, Purchases and more</p>
+  </section>
+  <div id="tables"></div>
+</div>
+
+<!-- ===== Login Modal ===== -->
+<div class="modal fade" id="loginModal" tabindex="-1">
+  <div class="modal-dialog">
+    <form class="modal-content" onsubmit="login(event)">
+      <div class="modal-header">
+        <h5 class="modal-title">Owner Login</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <input class="form-control mb-2" id="loginEmail" type="email" placeholder="Email" required>
+        <input class="form-control mb-2" id="loginPass" type="password" placeholder="Password" required>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-coffee">Login</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- ===== CRUD Modal ===== -->
+<div class="modal fade" id="crudModal" tabindex="-1">
+  <div class="modal-dialog">
+    <form class="modal-content" onsubmit="saveRecord(event)">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalTitle"></h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body" id="crudForm"></div>
+      <div class="modal-footer"><button class="btn btn-coffee">Save</button></div>
+    </form>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+let loggedIn = false;
+let currentTable = "", currentHeaders = [], editingRow = null;
+const crudModal = new bootstrap.Modal(document.getElementById("crudModal"));
+
+// Allowed owner account
+const OWNER_EMAIL = "jan@gmail.com";
+const OWNER_PASS = "123";
+
+// === Protect navbar links ===
+document.querySelectorAll("#protectedNav a").forEach(link=>{
+  link.addEventListener("click",function(e){
+    if(!loggedIn){
+      e.preventDefault();
+      alert("⚠️ Please login first to access this section!");
+      new bootstrap.Modal(document.getElementById("loginModal")).show();
+    }
+  });
+});
+
+// === Login ===
+function login(e){
+  e.preventDefault();
+  let email=document.getElementById("loginEmail").value;
+  let pass=document.getElementById("loginPass").value;
+
+  if(email===OWNER_EMAIL && pass===OWNER_PASS){
+    loggedIn=true;
+    document.getElementById("welcomeHero").style.display="none";
+    document.getElementById("dashboard").style.display="block";
+    document.getElementById("loginBtn").classList.add("d-none");
+    document.getElementById("logoutBtn").classList.remove("d-none");
+
+    // ✅ Clear inputs
+    document.getElementById("loginEmail").value = "";
+    document.getElementById("loginPass").value = "";
+
+    // Hide modal
+    bootstrap.Modal.getInstance(document.getElementById("loginModal")).hide();
+    buildTables();
+  } else { 
+    alert("❌ Invalid email or password!"); 
+  }
+}
+
+
+// === Logout ===
+function logout(){
+  loggedIn=false;
+  document.getElementById("welcomeHero").style.display="block";
+  document.getElementById("dashboard").style.display="none";
+  document.getElementById("loginBtn").classList.remove("d-none");
+  document.getElementById("logoutBtn").classList.add("d-none");
+}
+
+// === Table structures ===
+const tables = {
+  "tbl_employee": ["ID","Name","Gender","Phone","Position"],
+  "tbl_payment": ["ID","Date","Amount","Method"],
+  "tbl_purchase": ["ID","Supplier","Date","Total"],
+  "tbl_purchase_detail": ["ID","PurchaseID","Product","Qty","Price"],
+  "tbl_receive_detail": ["ID","ReceiveID","Product","Qty"],
+  "tbl_recieve_purchase": ["ID","PurchaseID","Receiver","Date"],
+  "tbl_owner": ["ID","Name","Email","Phone"]
+};
+
+// === Build Tables ===
+function buildTables(){
+  const container=document.getElementById("tables");
+  container.innerHTML="";
+  for(let tbl in tables){
+    let sec=document.createElement("section");
+    sec.className="container my-5";
+    sec.id=tbl;
+    sec.innerHTML=`
+      <h2 class="mb-3">${tbl.replace("tbl_","").toUpperCase()}</h2>
+      <button class="btn btn-coffee mb-3" onclick="openAdd('${tbl}')">➕ Add</button>
+      <div class="table-responsive">
+        <table class="table table-striped table-bordered">
+          <thead class="table-dark">
+            <tr>${tables[tbl].map(h=>`<th>${h}</th>`).join("")}<th>Actions</th></tr>
+          </thead>
+          <tbody id="${tbl}_body"></tbody>
+        </table>
+      </div>`;
+    container.appendChild(sec);
+  }
+}
+
+// === CRUD Functions ===
+function openAdd(table){
+  currentTable=table;
+  currentHeaders=tables[table];
+  editingRow=null;
+  document.getElementById("modalTitle").innerText="Add "+table;
+  document.getElementById("crudForm").innerHTML=currentHeaders.slice(1).map(h=>`
+    <input class="form-control mb-2" placeholder="${h}" id="field_${h}" required>`).join("");
+  crudModal.show();
+}
+
+function editRow(btn,table){
+  currentTable=table;
+  currentHeaders=tables[table];
+  editingRow=btn.closest("tr");
+  document.getElementById("modalTitle").innerText="Edit "+table;
+  const cells=editingRow.children;
+  document.getElementById("crudForm").innerHTML=currentHeaders.slice(1).map((h,i)=>`
+    <input class="form-control mb-2" placeholder="${h}" id="field_${h}" value="${cells[i+1].innerText}" required>`).join("");
+  crudModal.show();
+}
+
+function saveRecord(e){
+  e.preventDefault();
+  const values=currentHeaders.slice(1).map(h=>document.getElementById("field_"+h).value);
+  const tbody=document.getElementById(currentTable+"_body");
+  if(editingRow){
+    values.forEach((v,i)=>editingRow.children[i+1].innerText=v);
+  } else {
+    let id=tbody.rows.length+1;
+    let newRow=tbody.insertRow();
+    newRow.innerHTML=`<td>${id}</td>`+values.map(v=>`<td>${v}</td>`).join("")+`
+      <td>
+        <button class="btn btn-sm btn-primary" onclick="editRow(this,'${currentTable}')">✏️</button>
+        <button class="btn btn-sm btn-danger" onclick="deleteRow(this)">❌</button>
+      </td>`;
+  }
+  crudModal.hide();
+}
+
+function deleteRow(btn){
+  if(confirm("Delete this record?")) btn.closest("tr").remove();
+}
+</script>
+</body>
+</html>

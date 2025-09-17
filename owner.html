@@ -103,13 +103,28 @@ const crudModal = new bootstrap.Modal(document.getElementById("crudModal"));
 const OWNER_EMAIL = "jan@gmail.com";
 const OWNER_PASS = "123";
 
-// === Protect navbar links ===
+// === Table structures ===
+const tables = {
+  "tbl_employee": ["ID","Name","Gender","Phone","Position"],
+  "tbl_payment": ["ID","Date","Amount","Method"],
+  "tbl_purchase": ["ID","Supplier","Date","Total"],
+  "tbl_purchase_detail": ["ID","PurchaseID","Product","Qty","Price"],
+  "tbl_receive_detail": ["ID","ReceiveID","Product","Qty"],
+  "tbl_recieve_purchase": ["ID","PurchaseID","Receiver","Date"],
+  "tbl_owner": ["ID","Name","Email","Phone"]
+};
+
+// === Protect navbar links & show table when logged in ===
 document.querySelectorAll("#protectedNav a").forEach(link=>{
   link.addEventListener("click",function(e){
     if(!loggedIn){
       e.preventDefault();
       alert("⚠️ Please login first to access this section!");
       new bootstrap.Modal(document.getElementById("loginModal")).show();
+    } else {
+      e.preventDefault();
+      let targetId = this.getAttribute("href").substring(1); // remove '#'
+      showTable(targetId);
     }
   });
 });
@@ -139,7 +154,6 @@ function login(e){
   }
 }
 
-
 // === Logout ===
 function logout(){
   loggedIn=false;
@@ -149,18 +163,7 @@ function logout(){
   document.getElementById("logoutBtn").classList.add("d-none");
 }
 
-// === Table structures ===
-const tables = {
-  "tbl_employee": ["ID","Name","Gender","Phone","Position"],
-  "tbl_payment": ["ID","Date","Amount","Method"],
-  "tbl_purchase": ["ID","Supplier","Date","Total"],
-  "tbl_purchase_detail": ["ID","PurchaseID","Product","Qty","Price"],
-  "tbl_receive_detail": ["ID","ReceiveID","Product","Qty"],
-  "tbl_recieve_purchase": ["ID","PurchaseID","Receiver","Date"],
-  "tbl_owner": ["ID","Name","Email","Phone"]
-};
-
-// === Build Tables ===
+// === Build Tables (hidden by default) ===
 function buildTables(){
   const container=document.getElementById("tables");
   container.innerHTML="";
@@ -168,6 +171,7 @@ function buildTables(){
     let sec=document.createElement("section");
     sec.className="container my-5";
     sec.id=tbl;
+    sec.style.display="none"; // 🔒 hidden until clicked
     sec.innerHTML=`
       <h2 class="mb-3">${tbl.replace("tbl_","").toUpperCase()}</h2>
       <button class="btn btn-coffee mb-3" onclick="openAdd('${tbl}')">➕ Add</button>
@@ -181,6 +185,15 @@ function buildTables(){
       </div>`;
     container.appendChild(sec);
   }
+}
+
+// === Show selected table ===
+function showTable(tableId){
+  document.querySelectorAll("#tables section").forEach(sec=>{
+    sec.style.display="none";
+  });
+  let section=document.getElementById(tableId);
+  if(section) section.style.display="block";
 }
 
 // === CRUD Functions ===

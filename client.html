@@ -258,8 +258,8 @@
       <div class="collapse navbar-collapse" id="navbarMenu">
         <ul class="navbar-nav mx-auto">
           <li class="nav-item"><a class="nav-link fw-bold" href="#">HOME</a></li>
-          <li class="nav-item"><a class="nav-link fw-bold" href="#">SHOP</a></li>
-          <li class="nav-item"><a class="nav-link fw-bold" href="#">MENU</a></li>
+          <li class="nav-item"><a class="nav-link fw-bold" href="#hero">SHOP</a></li>
+          <li class="nav-item"><a class="nav-link fw-bold" href="#menu">MENU</a></li>
           <li class="nav-item"><a class="nav-link fw-bold" href="#about">ABOUT US</a></li>
           <li class="nav-item"><a class="nav-link fw-bold" href="#contact">CONTACT</a></li>
         </ul>
@@ -1107,67 +1107,85 @@
 </div>
 
 <!-- Login Modal -->
-  <div class="modal fade" id="loginModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">Login</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-        </div>
-        <div class="modal-body">
-          <form id="loginForm">
-            <div class="mb-3">
-              <label class="form-label">Email</label>
-              <input type="email" class="form-control" id="loginEmail" required>
-            </div>
-            <div class="mb-3">
-              <label class="form-label">Password</label>
-              <input type="password" class="form-control" id="loginPassword" required>
-            </div>
-            <button type="submit" class="btn btn-primary w-100">Login</button>
-          </form>
-          <p class="mt-3 text-center">Not registered yet? 
-            <a href="#" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#registerModal">Register here</a>
-          </p>
-        </div>
+<div class="modal fade" id="loginModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Login</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
       </div>
-    </div>
-  </div>
+      <div class="modal-body">
+        <form id="loginForm">
+          <div class="mb-3">
+            <label class="form-label">Phone Number</label>
+            <input type="tel" class="form-control" id="loginPhone" required>
+          </div>
+          <button type="submit" class="btn btn-primary w-100">Login</button>
+        </form>
 
-  <!-- Register Modal -->
-  <div class="modal fade" id="registerModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">Register</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-        </div>
-        <div class="modal-body">
-          <form id="registerForm">
-            <div class="mb-3">
-              <label class="form-label">Name</label>
-              <input type="text" class="form-control" id="registerName" required>
-            </div>
-            <div class="mb-3">
-              <label class="form-label">Email</label>
-              <input type="email" class="form-control" id="registerEmail" required>
-            </div>
-            <div class="mb-3">
-              <label class="form-label">Password</label>
-              <input type="password" class="form-control" id="registerPassword" required>
-            </div>
-            <button type="submit" class="btn btn-success w-100">Register</button>
-          </form>
-        </div>
+        <!-- Register redirect -->
+        <p class="mt-3 text-center">
+          New customer?  
+          <a href="#" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#registerModal">
+            Register here
+          </a>
+        </p>
       </div>
     </div>
   </div>
+</div>
+
+<!-- Register Modal -->
+<div class="modal fade" id="registerModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Register</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <form id="registerForm">
+          <div class="mb-3">
+            <label class="form-label">First Name</label>
+            <input type="text" class="form-control" id="registerFirstName" required>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Last Name</label>
+            <input type="text" class="form-control" id="registerLastName" required>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Gender</label><br>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="gender" id="male" value="Male" required>
+              <label class="form-check-label" for="male">Male</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="gender" id="female" value="Female">
+              <label class="form-check-label" for="female">Female</label>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Address</label>
+            <input type="text" class="form-control" id="registerAddress" required>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Phone Number</label>
+            <input type="tel" class="form-control" id="registerPhone" required>
+          </div>
+          <button type="submit" class="btn btn-success w-100">Register</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <script>
   let cart = [];
   let cartOpen = false;
   let loggedIn = false;
+  let registeredUsers = [];
 
   // Change quantity for coffee
   function changeQty(btn, delta) {
@@ -1215,11 +1233,11 @@
       sum += c.total;
       count += c.qty;
       cartItems.innerHTML += `
-        <div class="cart-item">
-          <strong>${c.item}</strong> (${c.qty} × $${c.price.toFixed(2)})<br>
-          Sugar: ${c.sugar} | Note: ${c.note || "—"}<br>
+        <div class="cart-item mb-2 border-bottom pb-2">
+          <strong>${c.item}</strong> (${c.qty} &times; $${c.price.toFixed(2)})<br>
+          <small>Sugar: ${c.sugar} | Note: ${c.note || "—"}</small><br>
           <em>Subtotal: $${c.total.toFixed(2)}</em>
-          <button class="btn btn-sm btn-danger mt-1" onclick="removeItem(${i})">Remove</button>
+          <button class="btn btn-sm btn-outline-danger mt-1" onclick="removeItem(${i})">Remove</button>
         </div>`;
     });
 
@@ -1236,14 +1254,18 @@
   function checkout() {
     if (cart.length === 0) { alert("Your cart is empty!"); return; }
     alert("Checkout successful! Thank you for your order ❤️");
-    clearCart(); toggleCart(false);
+    clearCart(); 
+    toggleCart(false);
   }
 
   // Toggle cart sidebar
   function toggleCart(forceOpen) {
     const sidebar = document.getElementById("cartSidebar");
-    if (typeof forceOpen === 'boolean') cartOpen = forceOpen;
-    else cartOpen = !cartOpen;
+    if (typeof forceOpen === 'boolean') {
+      cartOpen = forceOpen;
+    } else {
+      cartOpen = !cartOpen;
+    }
     sidebar.classList.toggle("open", cartOpen);
   }
 
@@ -1260,99 +1282,102 @@
   const loginMenu = document.getElementById("loginMenu");
   const registerMenu = document.getElementById("registerMenu");
   const logoutMenu = document.getElementById("logoutMenu");
+  const loginForm = document.getElementById('loginForm');
+  const registerForm = document.getElementById('registerForm');
 
   userBtn.addEventListener("click", () => {
+    // Only show the menu if the button is clicked
     userMenu.style.display = userMenu.style.display === "flex" ? "none" : "flex";
   });
-
-  // Update login/logout after login
-  loginForm.addEventListener("submit", function(e) {
-  e.preventDefault();
-  loggedIn = true;
-  loginMenu.style.display = "none";
-  registerMenu.style.display = "none";
-  logoutMenu.style.display = "block";
-
-  // Change color and style when logged in
-  userBtn.classList.add("logged-in");
-  userBtn.textContent = "Welcome!";
-
-  const loginModal = bootstrap.Modal.getInstance(document.getElementById('loginModal'));
-  loginModal.hide();
-  });
-
-  logoutMenu.addEventListener("click", () => {
-    loggedIn = false;
-    loginMenu.style.display = "block";
-    registerMenu.style.display = "block";
-    logoutMenu.style.display = "none";
-    
-    // Reset color and text
-    userBtn.classList.remove("logged-in");
-    userBtn.innerHTML = `<img src="img/logo/user-icon.png" width="28" style="margin-right:0px;">`;
-
-    userMenu.style.display = "none";
+  
+  // Close user menu if clicking elsewhere on the page
+  document.addEventListener('click', function(event) {
+    if (!userBtn.contains(event.target) && !userMenu.contains(event.target)) {
+      userMenu.style.display = 'none';
+    }
   });
 
   // Handle login
   loginForm.addEventListener("submit", function(e) {
     e.preventDefault();
+    const phone = document.getElementById("loginPhone").value;
+    const user = registeredUsers.find(u => u.phone === phone);
 
-    // For demo, use the email name before @ as username
-    const email = document.getElementById("loginEmail").value;
-    const userName = email.split("@")[0];
+    if (!user) {
+      alert("This phone number is not registered. Please register first.");
+      return;
+    }
 
+    // --- Login success actions ---
     loggedIn = true;
     loginMenu.style.display = "none";
     registerMenu.style.display = "none";
     logoutMenu.style.display = "block";
 
     userBtn.classList.add("logged-in");
-    userBtn.textContent = `Welcome, ${userName}`;
+    userBtn.innerHTML = `Welcome, ${user.firstName}`; // Show "Welcome, [Name]"
 
     const loginModal = bootstrap.Modal.getInstance(document.getElementById('loginModal'));
-    loginModal.hide();
+    if (loginModal) {
+      loginModal.hide();
+    }
+    loginForm.reset();
+    userMenu.style.display = "none";
   });
 
-
-  // Handle register
+  // Handle register 
   registerForm.addEventListener("submit", function(e) {
     e.preventDefault();
 
-    // Get user's name from the form
-    const userName = document.getElementById("registerName").value;
+    const firstName = document.getElementById("registerFirstName").value;
+    const lastName = document.getElementById("registerLastName").value;
+    const gender = document.querySelector('input[name="gender"]:checked').value;
+    const address = document.getElementById("registerAddress").value;
+    const phone = document.getElementById("registerPhone").value;
+    
+    if (registeredUsers.some(user => user.phone === phone)) {
+      alert('This phone number is already registered. Please login.');
+      return;
+    }
 
-    // Auto-login after registration
+    registeredUsers.push({ firstName, lastName, gender, address, phone });
+
+    // --- Auto-login after register actions ---
     loggedIn = true;
-
-    // Hide login/register menu links, show logout
     loginMenu.style.display = "none";
     registerMenu.style.display = "none";
     logoutMenu.style.display = "block";
 
-    // Update the user button
     userBtn.classList.add("logged-in");
-    userBtn.textContent = `Welcome, ${userName}`;
+    userBtn.innerHTML = `Welcome, ${firstName}`; // Show "Welcome, [Name]"
 
-    // Hide register modal
     const registerModal = bootstrap.Modal.getInstance(document.getElementById('registerModal'));
-    registerModal.hide();
+    if (registerModal) {
+      registerModal.hide();
+    }
+    registerForm.reset();
+    userMenu.style.display = "none";
 
     alert("Registration successful! You are now logged in.");
   });
 
+  // Handle logout
+  logoutMenu.addEventListener("click", (e) => {
+    e.preventDefault(); // Prevent any default link behavior
+    loggedIn = false;
+    
+    // --- Reset UI to logged-out state ---
+    loginMenu.style.display = "block";
+    registerMenu.style.display = "block";
+    logoutMenu.style.display = "none";
 
-  // Also handle logout button if exists
-  const logoutBtn = document.getElementById("logoutBtn");
-  if(logoutBtn){
-    logoutBtn.addEventListener("click", function() {
-      loggedIn = false;
-      loginBtn.classList.remove("btn-logged-in");
-      loginBtn.textContent = "Login";
-      loginBtn.setAttribute("data-bs-toggle", "modal");
-      registerBtn.style.display = "inline-block";
-    });
-  }
+    userBtn.classList.remove("logged-in");
+    userBtn.innerHTML = `<img src="img/logo/user-icon.png" width="28" style="margin-right:0px;">`;
+    
+    userMenu.style.display = "none";
+    alert("You have been logged out.");
+  });
+
 </script>
 </body>
 </html>
